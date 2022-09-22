@@ -24,7 +24,16 @@ const connectDB = async () => {
     });
   } catch (error) {
     console.log(`DB Error: ${error.message}`);
+    process.exit(1);
   }
 };
 
 connectDB();
+
+app.get("/book/", async (request, response) => {
+  const booksQuary = `SELECT * FROM book ORDER BY book_id LIMIT 1`;
+
+  const bookArry = await db.all(booksQuary);
+
+  response.send(bookArry);
+});
